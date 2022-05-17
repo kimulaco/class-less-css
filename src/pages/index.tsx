@@ -19,7 +19,9 @@ const IndexPage = () => {
               <Button
                 bg={framework.id === frameworkId ? 'green.500' : ''}
                 onClick={() => setFramework(FRAMEWORKS[frameworkId])}
-              >{FRAMEWORKS[frameworkId].name}</Button>
+              >
+                {FRAMEWORKS[frameworkId].name}
+              </Button>
             </Box>
           )
         })}
@@ -30,7 +32,7 @@ const IndexPage = () => {
           iframeSrc={'/example.html'}
           cssCdn={framework.cdnUrl.default}
           chakra={{
-            borderLeft: '1px solid'
+            borderLeft: '1px solid',
           }}
         />
       </Flex>

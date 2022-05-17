@@ -45,12 +45,7 @@ export const Previewer: NextComponentType<PreviewerProps> = ({
 
   return (
     <Flex w={'100%'} h={'100%'} {...chakra}>
-      <Box
-        as={'iframe'}
-        ref={iframeRef}
-        src={iframeSrc}
-        w={'100%'}
-      />
+      <Box as={'iframe'} ref={iframeRef} src={iframeSrc} w={'100%'} />
     </Flex>
   )
 }

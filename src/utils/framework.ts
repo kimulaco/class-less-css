@@ -9,28 +9,28 @@ export type FrameworkData = {
 export const FRAMEWORKS: {
   [id: FrameworkData['id']]: FrameworkData
 } = {
-  'simplecss': {
+  simplecss: {
     id: 'simplecss',
     name: 'Simple.css',
     cdnUrl: {
       default: 'https://cdn.simplecss.org/simple.min.css',
     },
   },
-  'mvpcss': {
+  mvpcss: {
     id: 'mvpcss',
     name: 'MVP.css',
     cdnUrl: {
       default: 'https://unpkg.com/mvp.css',
     },
   },
-  'watercss': {
+  watercss: {
     id: 'watercss',
     name: 'Water.css',
     cdnUrl: {
       default: 'https://cdn.jsdelivr.net/npm/water.css@2/out/light.css',
     },
   },
-  'sakuracss': {
+  sakuracss: {
     id: 'sakuracss',
     name: 'sakura',
     cdnUrl: {
