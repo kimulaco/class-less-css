@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { NextComponentType } from 'next'
+import { NextComponentType, NextPageContext } from 'next'
 import { Box, Flex, FlexProps } from '@chakra-ui/react'
 
 const CDN_STYLE_ELEMENT_ID = 'classlesscss-cdn'
@@ -10,11 +10,11 @@ type PreviewerProps = {
   chakra?: FlexProps
 }
 
-export const Previewer: NextComponentType<PreviewerProps> = ({
-  iframeSrc,
-  cssCdn,
-  chakra,
-}) => {
+export const Previewer: NextComponentType<
+  NextPageContext,
+  {},
+  PreviewerProps
+> = ({ iframeSrc, cssCdn, chakra }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
   const updatePreviewStyle = () => {
@@ -26,7 +26,9 @@ export const Previewer: NextComponentType<PreviewerProps> = ({
     if (!iframeHead) {
       return
     }
-    const cdnElement = iframeHead.querySelector(`#${CDN_STYLE_ELEMENT_ID}`)
+    const cdnElement: HTMLLinkElement | null = iframeHead.querySelector(
+      `link#${CDN_STYLE_ELEMENT_ID}`,
+    )
     if (cdnElement) {
       cdnElement.href = cssCdn
     } else {

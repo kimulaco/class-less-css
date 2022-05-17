@@ -1,7 +1,7 @@
 import NextDocument, { Html, Head, Main, NextScript } from 'next/document'
 import { ColorModeScript } from '@chakra-ui/react'
 
-const Document: NextDocument = () => {
+const Document = () => {
   return (
     <Html>
       <Head />

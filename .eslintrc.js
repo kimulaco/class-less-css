@@ -1,7 +1,6 @@
 module.exports = {
   extends: [
     'eslint:recommended',
-    'plugin:react/recommended',
     'next/core-web-vitals',
     'plugin:import/recommended',
     'plugin:import/warnings',
@@ -9,7 +8,7 @@ module.exports = {
   ],
   rules: {
     'import/order': [
-      error,
+      'error',
       {
         alphabetize: {
           order: 'asc',

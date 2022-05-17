@@ -1,28 +1,34 @@
 import { useState } from 'react'
-import { Box, Flex, Button } from '@chakra-ui/react'
+import { Box, Flex, Button, Heading, Divider } from '@chakra-ui/react'
 import { Previewer } from '../components/module/Previewer/'
-import { FRAMEWORKS, FrameworkData } from '../utils/framework'
+import { FrameworkItem } from '../components/module/FrameworkItem/'
+import { FRAMEWORKS } from '../constants/framework'
+import { Framework } from '../types/framework'
 
 const defaultFrameworkId = Object.keys(FRAMEWORKS)[0]
 
 const IndexPage = () => {
-  const [framework, setFramework] = useState<FrameworkData>(
+  const [framework, setFramework] = useState<Framework>(
     FRAMEWORKS[defaultFrameworkId],
   )
 
   return (
     <Flex h={'100vh'}>
       <Box w={'50%'}>
-        {Object.keys(FRAMEWORKS).map((frameworkId: string) => {
+        <Box p={4}>
+          <Heading as={'h1'}>Classless Frameworks</Heading>
+        </Box>
+        <Divider />
+        {Object.keys(FRAMEWORKS).map((frameworkId: Framework['id']) => {
           return (
-            <Box key={`framework-swicher-${frameworkId}`}>
-              <Button
-                bg={framework.id === frameworkId ? 'green.500' : ''}
-                onClick={() => setFramework(FRAMEWORKS[frameworkId])}
-              >
-                {FRAMEWORKS[frameworkId].name}
-              </Button>
-            </Box>
+            <>
+              <FrameworkItem
+                key={`framework-swicher-${frameworkId}`}
+                framework={FRAMEWORKS[frameworkId]}
+                onClickPreview={() => setFramework(FRAMEWORKS[frameworkId])}
+              />
+              <Divider key={`framework-swicher-${frameworkId}-divider`} />
+            </>
           )
         })}
       </Box>
