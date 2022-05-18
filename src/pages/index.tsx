@@ -4,24 +4,44 @@ import { Previewer } from '../components/module/Previewer/'
 import { FrameworkItem } from '../components/module/FrameworkItem/'
 import { useFrameworks } from '../store/frameworks'
 import { fetcher } from '../utils/fetcher'
-import { Framework } from '../types/framework'
+import { Framework, Frameworks } from '../types/framework'
 
 const IndexPage = () => {
-  const { frameworks, setFrameworkMeta } = useFrameworks()
+  const { frameworks, setFrameworks } = useFrameworks()
   const [framework, setFramework] = useState<Framework>(
     frameworks[Object.keys(frameworks)[0]],
   )
 
   const getRepositoryMeta = async (framework: Framework) => {
-    const response = await fetcher(
-      `/api/repository/${framework.githubRepository}`,
+    const newFrameworks: Frameworks = {}
+    await Promise.all(
+      Object.keys(frameworks).map((_frameworkId: Framework) =>
+        (async () => {
+          const _framework = frameworks[_frameworkId]
+          try {
+            const response = await fetcher(
+              `/api/repository/${_framework.githubRepository}`,
+            )
+            if (response.meta) {
+              newFrameworks[_frameworkId] = {
+                ..._framework,
+                meta: response.meta,
+              }
+            }
+          } catch {}
+          if (!newFrameworks[_frameworkId]) {
+            newFrameworks[_frameworkId] = _framework
+          }
+        })(),
+      ),
     )
-    setFrameworkMeta(framework.id, response.meta)
+    console.log(newFrameworks)
+    setFrameworks(newFrameworks)
   }
 
   useEffect(() => {
-    getRepositoryMeta(framework)
-  }, [framework])
+    getRepositoryMeta()
+  }, [])
 
   return (
     <Flex h={'100vh'}>

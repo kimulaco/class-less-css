@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { fetcher } from '../../../utils/fetcher'
+import { githubApi } from '../../../utils/github'
 import { RepositoryMeta } from '../../../types/repository'
 
 const getRepositoryMeta = async (
@@ -7,16 +7,16 @@ const getRepositoryMeta = async (
   repositoryName: string,
 ): Promise<RepositoryMeta> => {
   const fullName = `${repositoryOwner}/${repositoryName}`
-  const response = await fetcher(`https://api.github.com/repos/${fullName}`)
+  const { data } = await githubApi.get(`/repos/${fullName}`)
   return {
-    name: response?.name || repositoryName,
-    fullName: response?.full_name || repositoryOwner,
-    description: response?.description,
-    htmlUrl: response?.html_url,
-    stargazersCount: response?.stargazers_count,
+    name: data?.name || repositoryName,
+    fullName: data?.full_name || repositoryOwner,
+    description: data?.description,
+    htmlUrl: data?.html_url,
+    stargazersCount: data?.stargazers_count,
     license: {
-      name: response?.license.name,
-      url: response?.license.url,
+      name: data?.license.name,
+      url: data?.license.url,
     },
   }
 }
