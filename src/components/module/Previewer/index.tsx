@@ -1,6 +1,7 @@
-import { useEffect, useRef, useMemo } from 'react'
+import { Box, Flex } from '@chakra-ui/react'
+import type { FlexProps } from '@chakra-ui/react'
 import { NextComponentType, NextPageContext } from 'next'
-import { Box, Flex, FlexProps } from '@chakra-ui/react'
+import { useEffect, useRef, useMemo } from 'react'
 
 const CDN_STYLE_ELEMENT_ID = 'classlesscss-cdn'
 

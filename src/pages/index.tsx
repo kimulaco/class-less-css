@@ -1,10 +1,10 @@
+import { Box, Flex, Heading, Divider } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import { Box, Flex, Button, Heading, Divider } from '@chakra-ui/react'
-import { Previewer } from '../components/module/Previewer/'
 import { FrameworkItem } from '../components/module/FrameworkItem/'
+import { Previewer } from '../components/module/Previewer/'
 import { useFrameworks } from '../store/frameworks'
-import { api } from '../utils/api'
 import { FrameworkType } from '../types/framework'
+import { api } from '../utils/api'
 
 const addFrameworkStat = async (
   framework: FrameworkType,

@@ -1,5 +1,6 @@
 module.exports = {
   extends: [
+    'next',
     'eslint:recommended',
     'next/core-web-vitals',
     'plugin:import/recommended',

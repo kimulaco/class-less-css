@@ -1,22 +1,15 @@
-import { NextComponentType, NextPageContext } from 'next'
-import {
-  Box,
-  BoxProps,
-  Flex,
-  Heading,
-  Text,
-  Link,
-  Button,
-} from '@chakra-ui/react'
-import { FaLink, FaNpm, FaGithub } from 'react-icons/fa'
 import { LinkIcon } from '@chakra-ui/icons'
-import { StarBadge } from '../StarBadge/'
+import { Box, Flex, Heading, Text, Link, Button } from '@chakra-ui/react'
+import type { BoxProps } from '@chakra-ui/react'
+import { NextComponentType, NextPageContext } from 'next'
+import { FaNpm, FaGithub } from 'react-icons/fa'
 import { FrameworkType } from '../../../types/framework'
+import { StarBadge } from '../StarBadge/'
 
 type FrameworkItemProps = {
   framework: FrameworkType
   chakra?: BoxProps
-  onClickPreview: (framework: FrameworkType) => void
+  onClickPreview?: () => void
 }
 
 export const FrameworkItem: NextComponentType<
@@ -61,11 +54,7 @@ export const FrameworkItem: NextComponentType<
           <StarBadge count={framework.stat.starCount} />
         )}
 
-        <Button
-          size={'sm'}
-          ml={'auto'}
-          onClick={() => onClickPreview(framework)}
-        >
+        <Button size={'sm'} ml={'auto'} onClick={() => onClickPreview?.()}>
           Preview
         </Button>
       </Flex>

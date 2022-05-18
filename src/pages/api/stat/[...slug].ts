@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getSlug } from '../../../utils/server'
-import { githubApi } from '../../../utils/github'
 import { FrameworkStatType } from '../../../types/framework'
+import { githubApi } from '../../../utils/github'
+import { getSlug } from '../../../utils/server'
 
 type GithubRepositoryStat = {
   starCount: FrameworkStatType['starCount']
