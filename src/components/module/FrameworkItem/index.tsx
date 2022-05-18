@@ -8,15 +8,15 @@ import {
   Link,
   Button,
 } from '@chakra-ui/react'
-import { AiOutlineStar } from 'react-icons/ai'
 import { FaLink, FaNpm, FaGithub } from 'react-icons/fa'
 import { LinkIcon } from '@chakra-ui/icons'
-import { Framework } from '../../../types/framework'
+import { StarBadge } from '../StarBadge/'
+import { FrameworkType } from '../../../types/framework'
 
 type FrameworkItemProps = {
-  framework: Framework
+  framework: FrameworkType
   chakra?: BoxProps
-  onClickPreview: (framework: Framework) => void
+  onClickPreview: (framework: FrameworkType) => void
 }
 
 export const FrameworkItem: NextComponentType<
@@ -57,10 +57,8 @@ export const FrameworkItem: NextComponentType<
           </Link>
         )}
 
-        {framework.meta?.stargazersCount && (
-          <Box>
-            <AiOutlineStar /> {framework.meta?.stargazersCount}
-          </Box>
+        {framework.stat?.starCount && (
+          <StarBadge count={framework.stat.starCount} />
         )}
 
         <Button

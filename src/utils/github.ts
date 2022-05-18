@@ -8,8 +8,8 @@ export const githubApi = axios.create({
 
 githubApi.interceptors.request.use((config) => {
   config.auth = {
-    username: GITHUB_USER_NAME,
-    password: GITHUB_API_TOKEN,
+    username: GITHUB_USER_NAME || '',
+    password: GITHUB_API_TOKEN || '',
   }
   return config
 })

@@ -1,7 +1,7 @@
-import { Frameworks } from '../types/framework'
+import { FrameworkType } from '../types/framework'
 
-export const FRAMEWORKS: Frameworks = {
-  simplecss: {
+export const FRAMEWORKS: FrameworkType[] = [
+  {
     id: 'simplecss',
     name: 'Simple.css',
     description:
@@ -13,7 +13,7 @@ export const FRAMEWORKS: Frameworks = {
     githubRepository: 'kevquirk/simple.css',
     npmUrl: 'https://www.npmjs.com/package/simpledotcss',
   },
-  mvpcss: {
+  {
     id: 'mvpcss',
     name: 'MVP.css',
     description: 'A minimalist stylesheet for HTML elements.',
@@ -24,7 +24,7 @@ export const FRAMEWORKS: Frameworks = {
     githubRepository: 'andybrewer/mvp',
     npmUrl: 'https://www.npmjs.com/package/mvp.css',
   },
-  watercss: {
+  {
     id: 'watercss',
     name: 'Water.css',
     description:
@@ -36,7 +36,7 @@ export const FRAMEWORKS: Frameworks = {
     githubRepository: 'kognise/water.css',
     npmUrl: 'https://www.npmjs.com/package/water.css',
   },
-  sakuracss: {
+  {
     id: 'sakuracss',
     name: 'sakura',
     description: 'sakura: a minimal classless css framework / theme.',
@@ -46,4 +46,4 @@ export const FRAMEWORKS: Frameworks = {
     officialUrl: 'https://oxal.org/projects/sakura/',
     githubRepository: 'oxalorg/sakura',
   },
-}
+]

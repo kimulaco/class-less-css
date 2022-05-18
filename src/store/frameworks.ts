@@ -1,37 +1,27 @@
 import { atom, useRecoilState } from 'recoil'
 import { FRAMEWORKS } from '../constants/framework'
-import { Frameworks } from '../types/framework'
+import { FrameworkType } from '../types/framework'
 
-export const frameworksState = atom<Frameworks>({
+export const frameworksState = atom<FrameworkType[]>({
   key: 'frameworks',
   default: FRAMEWORKS,
 })
 
 export const useFrameworks = () => {
   const [frameworks, setFrameworks] =
-    useRecoilState<Frameworks>(frameworksState)
+    useRecoilState<FrameworkType[]>(frameworksState)
 
-  const setFrameworkMeta = (
-    frameworkId: Framework['id'],
-    meta: Framework['meta'],
-  ) => {
-    const framework: Framework | undefined = frameworks[frameworkId]
-    if (!framework) {
-      return
-    }
-    const newFrameworks: Frameworks = {
-      ...frameworks,
-      [frameworkId]: {
-        ...framework,
-        meta,
-      },
-    }
-    setFrameworks(newFrameworks)
+  const getframework = (
+    frameworkId: FrameworkType['id'],
+  ): FrameworkType | undefined => {
+    return frameworks.find((_framework: FrameworkType) => {
+      return _framework.id === frameworkId
+    })
   }
 
   return {
     frameworks,
     setFrameworks,
-    setFrameworkMeta,
+    getframework,
   }
 }

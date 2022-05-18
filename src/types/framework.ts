@@ -1,6 +1,9 @@
-import { RepositoryMeta } from './repository'
+export type FrameworkStatType = {
+  starCount?: number | undefined
+  downloadCount?: number | undefined
+}
 
-export type Framework = {
+export type FrameworkType = {
   id: string
   name: string
   description?: string
@@ -10,9 +13,5 @@ export type Framework = {
   officialUrl?: string
   githubRepository?: string
   npmUrl?: string
-  meta?: RepositoryMeta
-}
-
-export type Frameworks = {
-  [id: Framework['id']]: Framework
+  stat?: FrameworkStatType
 }
