@@ -1,6 +1,15 @@
 import { NextComponentType, NextPageContext } from 'next'
-import { Box, BoxProps, Flex, Heading, Link, Button } from '@chakra-ui/react'
-import { FaNpm, FaGithub } from 'react-icons/fa'
+import {
+  Box,
+  BoxProps,
+  Flex,
+  Heading,
+  Text,
+  Link,
+  Button,
+} from '@chakra-ui/react'
+import { AiOutlineStar } from 'react-icons/ai'
+import { FaLink, FaNpm, FaGithub } from 'react-icons/fa'
 import { LinkIcon } from '@chakra-ui/icons'
 import { Framework } from '../../../types/framework'
 
@@ -17,17 +26,28 @@ export const FrameworkItem: NextComponentType<
 > = ({ framework, chakra, onClickPreview }) => {
   return (
     <Box p={4} {...chakra}>
-      <Heading as={'h2'} mb={3} fontSize={'xl'}>
+      <Heading as={'h2'} mb={1} fontSize={'xl'}>
         {framework.name}
       </Heading>
+
+      {framework.description && (
+        <Text mb={2} lineHeight={1.2}>
+          {framework.description}
+        </Text>
+      )}
+
       <Flex alignItems={'center'}>
         {framework.officialUrl && (
           <Link href={framework.officialUrl} target='_blank' mr={2}>
             <LinkIcon />
           </Link>
         )}
-        {framework.githubUrl && (
-          <Link href={framework.githubUrl} target='_blank' mr={2}>
+        {framework.githubRepository && (
+          <Link
+            href={`https://github.com/${framework.githubRepository}`}
+            target='_blank'
+            mr={2}
+          >
             <FaGithub />
           </Link>
         )}
@@ -35,6 +55,12 @@ export const FrameworkItem: NextComponentType<
           <Link href={framework.npmUrl} target='_blank' mr={2}>
             <FaNpm />
           </Link>
+        )}
+
+        {framework.meta?.stargazersCount && (
+          <Box>
+            <AiOutlineStar /> {framework.meta?.stargazersCount}
+          </Box>
         )}
 
         <Button

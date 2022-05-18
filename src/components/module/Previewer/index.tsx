@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useMemo } from 'react'
 import { NextComponentType, NextPageContext } from 'next'
 import { Box, Flex, FlexProps } from '@chakra-ui/react'
 
@@ -17,29 +17,30 @@ export const Previewer: NextComponentType<
 > = ({ iframeSrc, cssCdn, chakra }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
-  const updatePreviewStyle = () => {
-    if (!cssCdn) {
-      return
+  const updatePreviewStyle = useMemo(() => {
+    return () => {
+      if (!cssCdn) {
+        return
+      }
+      const iframeDoc = iframeRef?.current?.contentWindow?.document
+      const iframeHead = iframeDoc?.head
+      if (!iframeHead) {
+        return
+      }
+      const cdnElement: HTMLLinkElement | null = iframeHead.querySelector(
+        `link#${CDN_STYLE_ELEMENT_ID}`,
+      )
+      if (cdnElement) {
+        cdnElement.href = cssCdn
+      } else {
+        const linkElement = iframeDoc.createElement('link')
+        linkElement.setAttribute('id', CDN_STYLE_ELEMENT_ID)
+        linkElement.setAttribute('rel', 'stylesheet')
+        linkElement.setAttribute('href', cssCdn)
+        iframeHead.appendChild(linkElement)
+      }
     }
-    const iframeDoc = iframeRef?.current?.contentWindow?.document
-    const iframeHead = iframeDoc?.head
-    if (!iframeHead) {
-      return
-    }
-    const cdnElement: HTMLLinkElement | null = iframeHead.querySelector(
-      `link#${CDN_STYLE_ELEMENT_ID}`,
-    )
-    if (cdnElement) {
-      cdnElement.href = cssCdn
-    } else {
-      const linkElement = iframeDoc.createElement('link')
-      linkElement.setAttribute('id', CDN_STYLE_ELEMENT_ID)
-      linkElement.setAttribute('rel', 'stylesheet')
-      linkElement.setAttribute('href', cssCdn)
-      iframeHead.appendChild(linkElement)
-    }
-    console.log(iframeHead)
-  }
+  }, [iframeRef, cssCdn])
 
   useEffect(() => {
     updatePreviewStyle()
