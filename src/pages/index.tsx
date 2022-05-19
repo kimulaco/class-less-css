@@ -1,45 +1,21 @@
 import { Box, Flex, Heading, Divider } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { FrameworkItem } from '../components/module/FrameworkItem/'
 import { Previewer } from '../components/module/Previewer/'
 import { useFrameworks } from '../store/frameworks'
 import { FrameworkType } from '../types/framework'
-import { api } from '../utils/api'
-
-const addFrameworkStat = async (
-  framework: FrameworkType,
-): Promise<FrameworkType> => {
-  try {
-    const { data } = await api.get(`/api/stat/${framework.githubRepository}`)
-    if (data.stat) {
-      return {
-        ...framework,
-        stat: data.stat,
-      }
-    }
-    return framework
-  } catch {
-    return framework
-  }
-}
 
 const IndexPage = () => {
-  const { frameworks, setFrameworks } = useFrameworks()
-  const [framework, setFramework] = useState<FrameworkType>(frameworks[0])
-
-  const getRepositoryStat = async () => {
-    const newFrameworks: FrameworkType[] = await Promise.all(
-      frameworks.map((_framework: FrameworkType) => {
-        return addFrameworkStat(_framework)
-      }),
-    )
-    console.log(newFrameworks)
-    setFrameworks(newFrameworks)
-  }
+  const {
+    frameworks,
+    updateFrameworksStat,
+    currentFramework,
+    setCurrentFramework,
+  } = useFrameworks()
 
   useEffect(() => {
-    getRepositoryStat()
-  }, [])
+    updateFrameworksStat()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Flex h={'100vh'}>
@@ -55,7 +31,8 @@ const IndexPage = () => {
             <Box key={`framework-swicher-${_framework.id}`}>
               <FrameworkItem
                 framework={_framework}
-                onClickPreview={() => setFramework(_framework)}
+                active={_framework.id === currentFramework.id}
+                onClickPreview={() => setCurrentFramework(_framework)}
               />
               <Divider />
             </Box>
@@ -66,7 +43,7 @@ const IndexPage = () => {
       <Flex w={'50%'}>
         <Previewer
           iframeSrc={'/example.html'}
-          cssCdn={framework.cdnUrl.default}
+          cssCdn={currentFramework.cdnUrl.default}
           chakra={{
             borderLeft: '1px solid',
           }}

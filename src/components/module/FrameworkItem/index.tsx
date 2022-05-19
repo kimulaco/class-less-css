@@ -1,13 +1,15 @@
 import { LinkIcon } from '@chakra-ui/icons'
 import { Box, Flex, Heading, Text, Link, Button } from '@chakra-ui/react'
-import type { BoxProps } from '@chakra-ui/react'
+import type { BoxProps, ChakraProps } from '@chakra-ui/react'
 import { NextComponentType, NextPageContext } from 'next'
+import { useMemo } from 'react'
 import { FaNpm, FaGithub } from 'react-icons/fa'
 import { FrameworkType } from '../../../types/framework'
 import { StarBadge } from '../StarBadge/'
 
 type FrameworkItemProps = {
   framework: FrameworkType
+  active?: boolean
   chakra?: BoxProps
   onClickPreview?: () => void
 }
@@ -16,9 +18,30 @@ export const FrameworkItem: NextComponentType<
   NextPageContext,
   {},
   FrameworkItemProps
-> = ({ framework, chakra, onClickPreview }) => {
+> = ({ framework, active = false, chakra, onClickPreview }) => {
+  const getRootStyles = useMemo(() => {
+    return (): ChakraProps => {
+      console.log('memo: getRootStyles')
+      return {
+        position: 'relative',
+        _before: {
+          content: '""',
+          display: 'block',
+          bg: 'blue.500',
+          w: '8px',
+          h: '100%',
+          position: 'absolute',
+          top: '0',
+          left: '0',
+          transform: active ? 'translateX(0px)' : 'translateX(-8px)',
+          transition: 'transform 0.3s',
+        },
+      }
+    }
+  }, [active])
+
   return (
-    <Box p={4} {...chakra}>
+    <Box p={4} {...getRootStyles()} {...chakra}>
       <Heading as={'h2'} mb={1} fontSize={'xl'}>
         {framework.name}
       </Heading>
