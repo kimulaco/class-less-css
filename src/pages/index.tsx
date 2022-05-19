@@ -1,17 +1,27 @@
 import { Box, Flex, Divider } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { FrameworkItem } from '../components/module/FrameworkItem/'
-import { Previewer } from '../components/module/Previewer/'
+import {
+  Previewer,
+  DEFAULT_PREVIEWER_BODY,
+} from '../components/module/Previewer/'
 import { useFrameworks } from '../store/frameworks'
 import { FrameworkType } from '../types/framework'
+import { useHash } from '../utils/useHash'
 
 const IndexPage = () => {
+  const { hash, setHash } = useHash()
   const {
     frameworks,
     updateFrameworksStat,
     currentFramework,
     setCurrentFramework,
-  } = useFrameworks()
+  } = useFrameworks({ defaultId: hash })
+
+  const handleChangeCurrentFramework = (_framework: FrameworkType) => {
+    setCurrentFramework(_framework)
+    setHash(`#${_framework.id}`)
+  }
 
   useEffect(() => {
     updateFrameworksStat()
@@ -25,8 +35,8 @@ const IndexPage = () => {
             <Box key={`framework-swicher-${_framework.id}`}>
               <FrameworkItem
                 framework={_framework}
-                active={_framework.id === currentFramework.id}
-                onClickPreview={() => setCurrentFramework(_framework)}
+                active={_framework.id === currentFramework?.id}
+                onClickPreview={() => handleChangeCurrentFramework(_framework)}
               />
               <Divider />
             </Box>
@@ -44,16 +54,16 @@ const IndexPage = () => {
           return (
             <Previewer
               key={`framework-preview-${_framework.id}`}
-              iframeSrc={'/example.html'}
               cssCdn={_framework.cdnUrl.default}
+              body={DEFAULT_PREVIEWER_BODY}
               chakra={{
                 w: '100%',
                 h: '100%',
                 position: 'absolute',
                 top: '0',
                 left: '0',
-                zIndex: currentFramework.id === _framework.id ? '1' : '0',
-                opacity: currentFramework.id === _framework.id ? '1' : '0',
+                zIndex: currentFramework?.id === _framework.id ? '1' : '0',
+                opacity: currentFramework?.id === _framework.id ? '1' : '0',
                 transition: 'opacity 0.3s',
               }}
             />

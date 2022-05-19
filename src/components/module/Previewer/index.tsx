@@ -1,12 +1,47 @@
 import { Box, Flex } from '@chakra-ui/react'
 import type { FlexProps } from '@chakra-ui/react'
 import { NextComponentType, NextPageContext } from 'next'
-import { useEffect, useRef, useMemo } from 'react'
+import { useMemo } from 'react'
 
-const CDN_STYLE_ELEMENT_ID = 'classlesscss-cdn'
+const generateSrcDoc = ({
+  cssCdn,
+  body,
+}: {
+  cssCdn: string
+  body: string
+}): string => {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Preview</title>
+<link rel="stylesheet" href="${cssCdn}" />
+</head>
+<body>${body}</body>
+</html>`
+}
+
+export const DEFAULT_PREVIEWER_BODY = `
+<header>
+  <h1>Class less CSS Frameworks</h1>
+</header>
+
+<main>
+<section>
+  <h2>Text</h2>
+  <p>
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Unde modi
+    laboriosam consectetur temporibus veritatis quibusdam praesentium
+    alias. Eos, vitae? Vitae, fugit odio non eos enim corporis distinctio?
+    Magnam, minima iusto.
+  </p>
+  <p><a href="#">Link Text</a></p>
+</section>
+</main>`
 
 type PreviewerProps = {
-  iframeSrc: string
+  body?: string
   cssCdn?: string
   chakra?: FlexProps
 }
@@ -15,41 +50,17 @@ export const Previewer: NextComponentType<
   NextPageContext,
   {},
   PreviewerProps
-> = ({ iframeSrc, cssCdn, chakra }) => {
-  const iframeRef = useRef<HTMLIFrameElement>(null)
-
-  const updatePreviewStyle = useMemo(() => {
-    return () => {
-      if (!cssCdn) {
-        return
-      }
-      const iframeDoc = iframeRef?.current?.contentWindow?.document
-      const iframeHead = iframeDoc?.head
-      if (!iframeHead) {
-        return
-      }
-      const cdnElement: HTMLLinkElement | null = iframeHead.querySelector(
-        `link#${CDN_STYLE_ELEMENT_ID}`,
-      )
-      if (cdnElement) {
-        cdnElement.href = cssCdn
-      } else {
-        const linkElement = iframeDoc.createElement('link')
-        linkElement.setAttribute('id', CDN_STYLE_ELEMENT_ID)
-        linkElement.setAttribute('rel', 'stylesheet')
-        linkElement.setAttribute('href', cssCdn)
-        iframeHead.appendChild(linkElement)
-      }
-    }
-  }, [iframeRef, cssCdn])
-
-  useEffect(() => {
-    updatePreviewStyle()
-  }, [updatePreviewStyle])
+> = ({ body, cssCdn, chakra }) => {
+  const srcDoc = useMemo<string>(() => {
+    return generateSrcDoc({
+      cssCdn: cssCdn || '',
+      body: body || '',
+    })
+  }, [cssCdn, body])
 
   return (
     <Flex w={'100%'} h={'100%'} {...chakra}>
-      <Box as={'iframe'} ref={iframeRef} src={iframeSrc} w={'100%'} />
+      <Box as={'iframe'} srcDoc={srcDoc} w={'100%'} />
     </Flex>
   )
 }

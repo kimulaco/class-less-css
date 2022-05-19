@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useEffect, useCallback } from 'react'
 import { atom, useRecoilState } from 'recoil'
 import { FRAMEWORKS } from '../constants/framework'
 import { FrameworkType } from '../types/framework'
@@ -26,17 +26,21 @@ export const frameworksState = atom<FrameworkType[]>({
   default: FRAMEWORKS,
 })
 
-export const currentFrameworkState = atom<FrameworkType>({
+export const currentFrameworkState = atom<FrameworkType | undefined>({
   key: 'currentFramework',
-  default: FRAMEWORKS[0],
+  default: undefined,
 })
 
-export const useFrameworks = () => {
+type UseFrameworksProps = {
+  defaultId?: string | undefined
+}
+
+export const useFrameworks = ({ defaultId }: UseFrameworksProps) => {
   const [frameworks, setFrameworks] =
     useRecoilState<FrameworkType[]>(frameworksState)
-  const [currentFramework, setCurrentFramework] = useRecoilState<FrameworkType>(
-    currentFrameworkState,
-  )
+  const [currentFramework, setCurrentFramework] = useRecoilState<
+    FrameworkType | undefined
+  >(currentFrameworkState)
 
   const updateFrameworksStat = useCallback(async () => {
     console.log('callback: updateFrameworksStat')
@@ -48,6 +52,13 @@ export const useFrameworks = () => {
     setFrameworks(newFrameworks)
     console.log(newFrameworks)
   }, [frameworks, setFrameworks])
+
+  useEffect(() => {
+    const defaultFramework = frameworks.find((_framework: FrameworkType) => {
+      return _framework.id === defaultId
+    })
+    setCurrentFramework(defaultFramework || FRAMEWORKS[0])
+  }, [])
 
   return {
     frameworks,
