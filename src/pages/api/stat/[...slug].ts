@@ -30,14 +30,14 @@ const handler = async (
   const [repositoryOwner, repositoryName] = getSlug(req.query.slug)
 
   try {
-    const { starCount } = await getRepositoryStat(
+    const repositoryStat = await getRepositoryStat(
       repositoryOwner,
       repositoryName,
     )
     return res.status(200).json({
       statusCode: 200,
       stat: {
-        starCount,
+        ...repositoryStat,
       },
     })
   } catch (error: any) {

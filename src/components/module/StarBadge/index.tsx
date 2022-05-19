@@ -1,4 +1,4 @@
-import { Flex, Text } from '@chakra-ui/react'
+import { Flex, Text, Icon } from '@chakra-ui/react'
 import type { FlexProps } from '@chakra-ui/react'
 import { NextComponentType, NextPageContext } from 'next'
 import { AiOutlineStar } from 'react-icons/ai'
@@ -15,8 +15,8 @@ export const StarBadge: NextComponentType<
 > = ({ count, chakra }) => {
   return (
     <Flex alignItems={'center'} {...chakra}>
-      <AiOutlineStar />
-      <Text>{count}</Text>
+      <Icon as={AiOutlineStar} mr={'1'} />
+      <Text fontSize={'sm'}>{count}</Text>
     </Flex>
   )
 }
