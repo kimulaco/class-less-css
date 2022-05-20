@@ -7,6 +7,9 @@ module.exports = {
     'plugin:import/warnings',
     'prettier',
   ],
+  env: {
+    jest: true,
+  },
   rules: {
     'import/order': [
       'error',
