@@ -41,7 +41,6 @@ const handler = async (
       },
     })
   } catch (error: any) {
-    console.error(error)
     return res.status(500).json({
       statusCode: 500,
       stat: {},

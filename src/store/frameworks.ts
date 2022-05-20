@@ -43,14 +43,12 @@ export const useFrameworks = ({ defaultId }: UseFrameworksProps) => {
   >(currentFrameworkState)
 
   const updateFrameworksStat = useCallback(async () => {
-    console.log('callback: updateFrameworksStat')
     const newFrameworks: FrameworkType[] = await Promise.all(
       frameworks.map((_framework: FrameworkType) => {
         return addFrameworkStat(_framework)
       }),
     )
     setFrameworks(newFrameworks)
-    console.log(newFrameworks)
   }, [frameworks, setFrameworks])
 
   useEffect(() => {

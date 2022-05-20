@@ -1,5 +1,5 @@
 import { LinkIcon } from '@chakra-ui/icons'
-import { Box, Flex, Heading, Text, Link, Button } from '@chakra-ui/react'
+import { Box, Flex, Heading, Text, Link, Button, Icon } from '@chakra-ui/react'
 import type { BoxProps, ChakraProps } from '@chakra-ui/react'
 import { NextComponentType, NextPageContext } from 'next'
 import { useMemo } from 'react'
@@ -53,6 +53,7 @@ export const FrameworkItem: NextComponentType<
               href={framework.officialUrl}
               target='_blank'
               mr={2}
+              lineHeight={'1'}
             >
               <LinkIcon />
             </Link>
@@ -72,9 +73,11 @@ export const FrameworkItem: NextComponentType<
               aria-label='npm'
               href={framework.npmUrl}
               target='_blank'
+              w={'20px'}
+              h={'20px'}
               mr={2}
             >
-              <FaNpm />
+              <Icon w={'100%'} h={'100%'} as={FaNpm} />
             </Link>
           )}
         </Flex>
@@ -87,9 +90,10 @@ export const FrameworkItem: NextComponentType<
       )}
 
       <Flex mt={2} alignItems={'center'}>
-        {framework.stat?.starCount && (
-          <StarBadge count={framework.stat.starCount} />
-        )}
+        <StarBadge
+          count={framework.stat?.starCount || 0}
+          skeleton={typeof framework.stat?.starCount !== 'number'}
+        />
 
         <Button size={'sm'} ml={'auto'} onClick={() => onClickPreview?.()}>
           Preview
