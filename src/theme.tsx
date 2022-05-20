@@ -5,9 +5,9 @@ const fonts = { mono: `'Menlo', monospace` }
 
 const breakpoints = createBreakpoints({
   sm: '40em',
-  md: '52em',
-  lg: '64em',
-  xl: '80em',
+  md: '840px',
+  lg: '1000px',
+  xl: '1200px',
 })
 
 const theme = extendTheme({

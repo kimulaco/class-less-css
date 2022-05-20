@@ -1,4 +1,5 @@
-import { Box, Flex, Divider } from '@chakra-ui/react'
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
+import { Box, Flex, IconButton, Divider } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { FrameworkItem } from '../components/module/FrameworkItem/'
 import {
@@ -8,9 +9,17 @@ import {
 import { useFrameworks } from '../store/frameworks'
 import { FrameworkType } from '../types/framework'
 import { useHash } from '../utils/useHash'
+import { useSidebar } from '../utils/useSidebar'
 
 const IndexPage = () => {
   const { hash, setHash } = useHash()
+  const {
+    sidebarStyle,
+    openButtonStyles,
+    closeButtonStyles,
+    openSidebar,
+    closeSidebar,
+  } = useSidebar({ baseOpacity: 10 })
   const {
     frameworks,
     updateFrameworksStat,
@@ -29,23 +38,50 @@ const IndexPage = () => {
 
   return (
     <Flex w={'100%'}>
-      <Box w={'50%'} overflowY={'auto'}>
-        {frameworks.map((_framework: FrameworkType) => {
-          return (
-            <Box key={`framework-swicher-${_framework.id}`}>
-              <FrameworkItem
-                framework={_framework}
-                active={_framework.id === currentFramework?.id}
-                onClickPreview={() => handleChangeCurrentFramework(_framework)}
-              />
-              <Divider />
-            </Box>
-          )
-        })}
+      <Box
+        bg={'white'}
+        w={['calc(100% - 60px)', '420px']}
+        h={'100%'}
+        {...sidebarStyle}
+      >
+        <Box boxShadow={'lg'} {...openButtonStyles}>
+          <IconButton
+            aria-label={'Show framework list'}
+            borderTopLeftRadius={'0'}
+            borderBottomLeftRadius={'0'}
+            icon={<HamburgerIcon />}
+            onClick={openSidebar}
+          />
+        </Box>
+        <Box overflowY={'auto'}>
+          {frameworks.map((_framework: FrameworkType) => {
+            return (
+              <Box key={`framework-swicher-${_framework.id}`}>
+                <FrameworkItem
+                  framework={_framework}
+                  active={_framework.id === currentFramework?.id}
+                  onClickPreview={() =>
+                    handleChangeCurrentFramework(_framework)
+                  }
+                />
+                <Divider />
+              </Box>
+            )
+          })}
+        </Box>
+        <Box boxShadow={'lg'} {...closeButtonStyles}>
+          <IconButton
+            aria-label={'Close framework list'}
+            borderTopLeftRadius={'0'}
+            borderBottomLeftRadius={'0'}
+            icon={<CloseIcon />}
+            onClick={closeSidebar}
+          />
+        </Box>
       </Box>
 
       <Flex
-        w={'50%'}
+        w={['100%', 'calc(100% - 420px)']}
         borderLeft={'1px solid'}
         borderColor={'gray.300'}
         position={'relative'}
