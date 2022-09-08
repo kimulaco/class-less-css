@@ -1,4 +1,4 @@
-const VALUE_UNIT: string[] = ['', 'K', 'M']
+const VALUE_UNIT: string[] = ['', 'K', 'M', 'G', 'T']
 const OMIT_DIGITS = 3
 
 export const toOmitValue = (value: number): string => {

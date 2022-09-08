@@ -7,7 +7,7 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json}'",
-    "test": "jest"
+    "test": "jest --verbose --coverage"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.0",
